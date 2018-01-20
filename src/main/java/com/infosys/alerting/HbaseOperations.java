@@ -52,6 +52,7 @@ public class HbaseOperations {
 		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("pushPreference"), Bytes.toBytes(user.getPushPreference()));
 		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("emailPreference"), Bytes.toBytes(user.getEmailPreference()));
 		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("smsPreference"), Bytes.toBytes(user.getSmsPreference()));
+		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("password"), Bytes.toBytes(user.getPassword()));
 		table.put(put);
 		
 		table.close();
@@ -92,19 +93,20 @@ public class HbaseOperations {
 	}
 	
 	// Check if the row key exists
-	public void checkRowKey() throws IOException {
+	public boolean checkRowKey(String email) throws IOException {
 		createAdmin();
 		
 		Table table = connection.getTable(TableName.valueOf("users"));
-		Get get = new Get(Bytes.toBytes("login.bhatia@gmail.com"));
+		Get get = new Get(Bytes.toBytes(email));
 		Result result = table.get(get);
-		if(result.isEmpty())
-			System.out.println("User doesn't exist.");
-		else
-			System.out.println("User exists");
 		
 		table.close();
 		closeConnection();
+		
+		if(result.isEmpty())
+			return false;
+		else
+			return true;
 	}
 	
 	// Close connections with HBase

@@ -8,6 +8,8 @@ public class User {
 	private String pushPreference;
 	private String emailPreference;
 	private String smsPreference;
+	private String password;
+	
 	public String getEmailId() {
 		return emailId;
 	}
@@ -43,5 +45,11 @@ public class User {
 	}
 	public void setSmsPreference(String smsPreference) {
 		this.smsPreference = smsPreference;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
