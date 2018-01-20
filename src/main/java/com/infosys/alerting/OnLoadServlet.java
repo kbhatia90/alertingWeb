@@ -1,0 +1,39 @@
+package com.infosys.alerting;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+
+@WebServlet("/OnLoadServlet")
+public class OnLoadServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	
+		HbaseOperations hbaseOps = new HbaseOperations();
+		User user = hbaseOps.retrieveData("login.bhatia@gmail.com");
+		
+		Map<String, String> userData = new LinkedHashMap<>();
+	    userData.put("name", user.getName());
+	    userData.put("balance", Integer.toString(user.getBalance()));
+	    userData.put("pushPreference", user.getPushPreference());
+	    userData.put("smsPreference", user.getSmsPreference());
+	    userData.put("emailPreference", user.getEmailPreference());
+	    
+	    String json = new Gson().toJson(userData);
+		System.out.println(json);
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+	}
+
+}
