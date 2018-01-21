@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +14,6 @@
 jQuery(function($){
 
 $(document).ready(function(){
-	
 	$(document).on("click", "#registerId", function(){
 		var credentials = {
 				email: $("#email").val(),
@@ -24,6 +22,7 @@ $(document).ready(function(){
 		}
 		$.post("RegisterServlet", $.param(credentials),function(response){
 			if (response == "registered"){
+				
 				$.redirect("loggedIn.jsp", {'emailId': $("#email").val()});
 			}
 			else
@@ -188,6 +187,12 @@ to {
 </style>
 
 <body class="w3-content" style="max-width: 1300px">
+
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setHeader("Expires", "0");
+%>
 	<!-- Top-->
 	<div class="w3-row" id="main">
 		<div class="w3-white w3-card w3-center" style="height: 700px">

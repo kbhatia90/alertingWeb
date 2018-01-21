@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html>
@@ -36,6 +36,10 @@ $(document).ready(function(){
     			$.post("ChannelPrefChangeServlet", $.param(preferences), function(response){
         			
         		});
+    		});
+    		
+    		$(document).on("click", "#logoutId", function(){
+    			$("#emailIDCaptured").html(null);
     		});
     		
 });
@@ -104,11 +108,22 @@ input:checked+.slider:before {
 </style>
 
 <body class="w3-content" style="max-width: 1300px">
+<%
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.setHeader("Pragma", "no-cache");
+	response.setHeader("Expires", "0");
+	if(null == request.getParameter("emailId"))
+	{%>
+		<jsp:forward page="index.jsp"/>
+	<%} 
+%>
+
 	<!-- Top-->
 	<div id="emailIDCaptured" class="w3-hide"><%String _emailId = request.getParameter("emailId");out.print(_emailId);%></div>
 	
 	<div class="w3-row">
 		<div class="w3-light-grey w3-card w3-center" style="height: 700px">
+		<a href="index.jsp" class="w3-button w3-right w3-padding-8" id="logoutId">Logout</a>
 			<div class="w3-padding-32">
 				<h1 class="w3-teal w3-card">DX Bank</h1>
 			</div>
