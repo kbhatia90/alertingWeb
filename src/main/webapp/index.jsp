@@ -8,6 +8,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="resources/jquery.redirect.min.js"></script>
+<script>
+jQuery(function($){
+
+$(document).ready(function(){
+	
+	$(document).on("click", "#registerId", function(){
+		var credentials = {
+				email: $("#email").val(),
+				nickname: $("#nickname").val(),
+				psw: $("#psw").val()
+		}
+		$.post("RegisterServlet", $.param(credentials),function(response){
+			if (response == "registered"){
+				$.redirect("loggedIn.jsp", {'emailId': $("#email").val()});
+			}
+			else
+				$("#alreadyRegisterdId").text("This email is already registered.");
+		});
+	});
+	
+});
+
+});
+	
+</script>
+</head>
+
 <style>
 /* Full-width input fields */
 input[type=text], input[type=password] {
@@ -217,22 +247,21 @@ to {
 	<div id="id02" class="modal">
 		<span onclick="document.getElementById('id02').style.display='none'"
 			class="close" title="Close Modal">&times;</span>
-		<form class="modal-content animate" action="Register">
+		<form class="modal-content animate">
 			<div class="container">
 				<h1>Sign Up</h1>
 				<p>Please fill in this form to create an account.</p>
+				<p id="alreadyRegisterdId" class="w3-red"></p>
 				<hr>
-				<label><b>Nick Name</b></label> <input type="text"
-					placeholder="Enter Nick Name" name="nickname" required> <label><b>Email</b></label>
-				<input type="text" placeholder="Enter Email" name="email" required>
-				<label><b>Password</b></label> <input type="password"
-					placeholder="Enter Password" name="psw" required> <label><b>Repeat
-						Password</b></label> <input type="password" placeholder="Repeat Password"
-					name="psw-repeat" required>
-
-				<button type="submit"
-					class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Sign
-					Up</button>
+				<label><b>Nick Name</b></label> 
+				<input type="text" placeholder="Enter Nick Name" id="nickname" required> 
+				<label><b>Email</b></label>
+				<input type="text" placeholder="Enter Email" id="email" required>
+				<label><b>Password</b></label>
+				<input type="password" placeholder="Enter Password" id="psw" required> 
+				<label><b>Repeat Password</b></label>
+				<input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+				<button type="button" id="registerId" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Sign Up</button>
 			</div>
 			<div class="container" style="background-color: #f1f1f1">
 				<button type="button"
@@ -241,8 +270,8 @@ to {
 				<span class="psw"><a href="#main" onClick="">Already
 						Registerd</a>?</span>
 			</div>
-
 		</form>
+		
 	</div>
 
 	<script>

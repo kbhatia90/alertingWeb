@@ -11,8 +11,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-
-    		$.post("OnLoadServlet",function(responseJson){
+		
+		var emailIdFromIndex = {
+				emailId: $("#emailIDCaptured").text()
+		}
+    		$.post("OnLoadServlet",$.param(emailIdFromIndex),function(responseJson){
     			$("#balanceId").text("Welcom "+responseJson.name+"! Your account balance is: €"+responseJson.balance);
     			if (responseJson.pushPreference == "true")
     				$("#pushPrefId").prop('checked',true);
@@ -28,6 +31,7 @@ $(document).ready(function(){
     					pushRequest: $("#pushPrefId").is(":checked"),
     					smsRequest: $("#smsPrefId").is(":checked"),
     					emailRequest: $("#emailPrefId").is(":checked"),
+    					emailId: $("#emailIDCaptured").text()
     			}
     			$.post("ChannelPrefChangeServlet", $.param(preferences), function(response){
         			
@@ -101,6 +105,8 @@ input:checked+.slider:before {
 
 <body class="w3-content" style="max-width: 1300px">
 	<!-- Top-->
+	<div id="emailIDCaptured" class="w3-hide"><%String _emailId = request.getParameter("emailId");out.print(_emailId);%></div>
+	
 	<div class="w3-row">
 		<div class="w3-light-grey w3-card w3-center" style="height: 700px">
 			<div class="w3-padding-32">

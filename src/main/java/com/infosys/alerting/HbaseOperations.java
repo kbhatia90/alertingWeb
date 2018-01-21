@@ -65,8 +65,10 @@ public class HbaseOperations {
 		
 		Table table = connection.getTable(TableName.valueOf("users"));
 		Get get = new Get(Bytes.toBytes(emailId));
+		
 		Result result = table.get(get);
 		byte [] nameBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("name"));
+		byte [] passwordBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("password"));
 		byte [] balanceBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("balance"));
 		byte [] pushPreferenceBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("pushPreference"));
 		byte [] smsPreferenceBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("smsPreference"));
@@ -77,10 +79,12 @@ public class HbaseOperations {
 		String pushPreference = Bytes.toString(pushPreferenceBytes);
 		String smsPreference = Bytes.toString(smsPreferenceBytes);
 		String emailPreference = Bytes.toString(emailPreferenceBytes);
+		String password = Bytes.toString(passwordBytes);
 		
 		User user = new User();
 		user.setEmailId(emailId);
 		user.setName(name);
+		user.setPassword(password);
 		user.setBalance(balance);
 		user.setEmailPreference(emailPreference);
 		user.setSmsPreference(smsPreference);

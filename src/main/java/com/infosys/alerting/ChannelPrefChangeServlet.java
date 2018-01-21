@@ -18,10 +18,12 @@ public class ChannelPrefChangeServlet extends HttpServlet {
 		String pushPrefFront = request.getParameter("pushRequest");
 		String smsPrefFront = request.getParameter("smsRequest");
 		String emailPrefFront = request.getParameter("emailRequest");
+		String emailId = request.getParameter("emailId");
+		
 		
 		HbaseOperations hbaseOps = new HbaseOperations();
 		User user = new User();
-		user = hbaseOps.retrieveData("login.bhatia@gmail.com");
+		user = hbaseOps.retrieveData(emailId);
 		
 		user.setSmsPreference(smsPrefFront);
 		user.setEmailPreference(emailPrefFront);

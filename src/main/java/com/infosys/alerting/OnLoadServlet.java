@@ -18,9 +18,11 @@ public class OnLoadServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	
+		
+		String emailId = request.getParameter("emailId");
+		
 		HbaseOperations hbaseOps = new HbaseOperations();
-		User user = hbaseOps.retrieveData("login.bhatia@gmail.com");
+		User user = hbaseOps.retrieveData(emailId);
 		
 		Map<String, String> userData = new LinkedHashMap<>();
 	    userData.put("name", user.getName());
@@ -30,7 +32,7 @@ public class OnLoadServlet extends HttpServlet {
 	    userData.put("emailPreference", user.getEmailPreference());
 	    
 	    String json = new Gson().toJson(userData);
-		System.out.println(json);
+		
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    response.getWriter().write(json);
