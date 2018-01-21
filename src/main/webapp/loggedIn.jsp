@@ -16,7 +16,8 @@ $(document).ready(function(){
 				emailId: $("#emailIDCaptured").text()
 		}
     		$.post("OnLoadServlet",$.param(emailIdFromIndex),function(responseJson){
-    			$("#balanceId").text("Welcom "+responseJson.name+"! Your account balance is: €"+responseJson.balance);
+    			$("#nameId").text("Welcom "+responseJson.name+"!");
+    			$("#balanceId").text("Your account balance is: €"+responseJson.balance);
     			if (responseJson.pushPreference == "true")
     				$("#pushPrefId").prop('checked',true);
     			if (responseJson.emailPreference == "true")
@@ -128,13 +129,12 @@ input:checked+.slider:before {
 				<h1 class="w3-teal w3-card">DX Bank</h1>
 			</div>
 			<div class="w3-row">
+				<h3 id="nameId"></h3>
 				<h3 id="balanceId"></h3>
 			</div>
 			<img src="resources/growth.png" class="w3-margin w3-circle"
 				alt="DX-Bank" style="width: 10%">
 			<div class="w3-padding-32">
-				<a href="#"
-					class="w3-button w3-light-grey w3-block w3-hover-blue-grey w3-padding-16">Home</a>
 				<a href="#work"
 					class="w3-button w3-light-grey w3-block w3-hover-indigo w3-padding-16">Communication
 					Catalog</a> <a href="#work"

@@ -209,7 +209,7 @@ response.setHeader("Expires", "0");
 					style="width: auto;">Sign In</a> <a
 					class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round"
 					onClick="document.getElementById('id02').style.display='block'"
-					style="width: auto;">Register</a>
+					style="width: auto;">Sign Up</a>
 			</div>
 			<p
 				style="font-size: 64px; font-family: serif; font-style: italic; color: grey">
@@ -247,8 +247,8 @@ response.setHeader("Expires", "0");
 			</div>
 
 			<div class="container">
-			<p id="wrongPassword" class="w3-red"></p>
-				<label><b>Username</b></label> <input type="text"
+			<p id="wrongPassword" style="color:red"></p>
+				<label><b>Email</b></label> <input type="text"
 					placeholder="Enter Email Id" id="emailLogin" required> <label><b>Password</b></label>
 				<input type="password" placeholder="Enter Password" id="pswLogin"
 					required>
@@ -261,8 +261,8 @@ response.setHeader("Expires", "0");
 			<div class="container" style="background-color: #f1f1f1">
 				<button type="button"
 					onclick="document.getElementById('id01').style.display='none'"
-					class="cancelbtn">Cancel</button>
-				<span class="psw"><a href="#">Forgot password</a>?</span>
+					class="w3-indigo">Cancel</button>
+				<!-- <span class="psw"><a href="#">Forgot password</a>?</span> -->
 			</div>
 		</form>
 	</div>
@@ -274,7 +274,7 @@ response.setHeader("Expires", "0");
 			<div class="container">
 				<h1>Sign Up</h1>
 				<p>Please fill in this form to create an account.</p>
-				<p id="alreadyRegisterdId" class="w3-red"></p>
+				<p id="alreadyRegisterdId" style="color:red"></p>
 				<hr>
 				<label><b>Nick Name</b></label> 
 				<input type="text" placeholder="Enter Nick Name" id="nickname" required> 
@@ -289,9 +289,9 @@ response.setHeader("Expires", "0");
 			<div class="container" style="background-color: #f1f1f1">
 				<button type="button"
 					onclick="document.getElementById('id02').style.display='none'"
-					class="cancelbtn">Cancel</button>
-				<span class="psw"><a href="#main" onClick="">Already
-						Registerd</a>?</span>
+					class="w3-indigo">Cancel</button>
+				<!-- <span class="psw"><a href="#main" onClick="">Already
+						Registerd</a>?</span> -->
 			</div>
 		</form>
 		
