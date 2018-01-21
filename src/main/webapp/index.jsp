@@ -31,6 +31,23 @@ $(document).ready(function(){
 		});
 	});
 	
+	
+	$(document).on("click", "#loginId", function(){
+		var credentials = {
+				email: $("#emailLogin").val(),
+				psw: $("#pswLogin").val()
+		}
+		$.post("LoginServlet", $.param(credentials),function(response){
+			if (response == "authenticated"){
+				$.redirect("loggedIn.jsp", {'emailId': $("#emailLogin").val()});
+			}
+			else if(response == "badPassword")
+				$("#wrongPassword").text("Bad Password.");
+			else
+				$("#wrongPassword").text("Email is not registered.");
+		});
+	});
+	
 });
 
 });
@@ -225,14 +242,15 @@ to {
 			</div>
 
 			<div class="container">
+			<p id="wrongPassword" class="w3-red"></p>
 				<label><b>Username</b></label> <input type="text"
-					placeholder="Enter Username" name="uname" required> <label><b>Password</b></label>
-				<input type="password" placeholder="Enter Password" name="psw"
+					placeholder="Enter Email Id" id="emailLogin" required> <label><b>Password</b></label>
+				<input type="password" placeholder="Enter Password" id="pswLogin"
 					required>
 
 				<button
 					class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round"
-					type="submit">Login</button>
+					type="button" id="loginId">Login</button>
 			</div>
 
 			<div class="container" style="background-color: #f1f1f1">
