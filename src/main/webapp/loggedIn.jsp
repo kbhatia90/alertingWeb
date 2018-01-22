@@ -57,6 +57,41 @@ $(document).ready(function(){
     			$("#emailIDCaptured").html(null);
     		});
     		
+    		$(document).on("click", "#purchaseBitcoinId", function(){
+    			var details = {
+    					emailId: $("#emailIDCaptured").text(),
+    					debitAmount: 100,
+    					type: "debit"
+    			}
+			$.post("RuleEngineServlet", $.param(details), function(response){
+				
+        			if(response == "notifyDebitAmount"){
+        				alert("Your account is debited with €100");
+        			}
+        			else if(response == "notifyLowerLimit"){
+        				alert("Your account balance is less than "+ $("#lowerLimitId").val());
+        			}
+        			else if(response == "notifyBigAmount"){
+        				alert("Your have made a purchase greater than "+ $("#transactionLimitId").val());
+        			}
+        			else if(response == "insufficient"){
+        				alert("insufficient funds");
+        			}
+        			location.reload();
+        		});
+    			
+    		});
+    		
+    		$(document).on("click", "#addMoney", function(){
+    			var details = {
+    					emailId: $("#emailIDCaptured").text(),
+    					creditAmount: 1000,
+    					type: "credit"
+    			}
+			$.post("RuleEngineServlet", $.param(details), function(response){
+				location.reload();
+        		});
+    		});
 });
 </script>
 </head>
@@ -269,6 +304,8 @@ input:checked+.slider:before {
 			<div class="w3-padding-64">
 				<h1>Shop Now!</h1>
 			</div>
+			<button type="button" id="purchaseBitcoinId" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">€ 100</button>
+			<button type="button" id="addMoney" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Add Money</button>
 			
 		</div>
 	</div>
