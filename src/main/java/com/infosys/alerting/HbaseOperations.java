@@ -53,6 +53,11 @@ public class HbaseOperations {
 		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("emailPreference"), Bytes.toBytes(user.getEmailPreference()));
 		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("smsPreference"), Bytes.toBytes(user.getSmsPreference()));
 		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("password"), Bytes.toBytes(user.getPassword()));
+		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("allTransactionsCheck"), Bytes.toBytes(user.getAllTransactionsCheck()));
+		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("lowerLimitCheck"), Bytes.toBytes(user.getLowerLimitCheck()));
+		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("lowerLimit"), Bytes.toBytes(user.getLowerLimit()));
+		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountCheck"), Bytes.toBytes(user.getTransactionAmountCheck()));
+		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountLimit"), Bytes.toBytes(user.getTransactionAmountLimit()));
 		table.put(put);
 		
 		table.close();
@@ -73,6 +78,11 @@ public class HbaseOperations {
 		byte [] pushPreferenceBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("pushPreference"));
 		byte [] smsPreferenceBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("smsPreference"));
 		byte [] emailPreferenceBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("emailPreference"));
+		byte [] allTransactionsCheckBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("allTransactionsCheck"));
+		byte [] lowerLimitCheckBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("lowerLimitCheck"));
+		byte [] lowerLimitBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("lowerLimit"));
+		byte [] transactionAmountCheckBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountCheck"));
+		byte [] transactionAmountLimitBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountLimit"));
 		
 		String name = Bytes.toString(nameBytes);
 		int balance = Bytes.toInt(balanceBytes);
@@ -80,6 +90,12 @@ public class HbaseOperations {
 		String smsPreference = Bytes.toString(smsPreferenceBytes);
 		String emailPreference = Bytes.toString(emailPreferenceBytes);
 		String password = Bytes.toString(passwordBytes);
+		String allTransactionsCheck = Bytes.toString(allTransactionsCheckBytes);
+		String lowerLimitCheck = Bytes.toString(lowerLimitCheckBytes);
+		int lowerLimit = Bytes.toInt(lowerLimitBytes);
+		String transactionAmountCheck = Bytes.toString(transactionAmountCheckBytes);
+		int transactionAmountLimit = Bytes.toInt(transactionAmountLimitBytes);
+		
 		
 		User user = new User();
 		user.setEmailId(emailId);
@@ -89,6 +105,11 @@ public class HbaseOperations {
 		user.setEmailPreference(emailPreference);
 		user.setSmsPreference(smsPreference);
 		user.setPushPreference(pushPreference);
+		user.setAllTransactionsCheck(allTransactionsCheck);
+		user.setLowerLimitCheck(lowerLimitCheck);
+		user.setLowerLimit(lowerLimit);
+		user.setTransactionAmountCheck(transactionAmountCheck);
+		user.setTransactionAmountLimit(transactionAmountLimit);
 		
 		table.close();
 		closeConnection();

@@ -18,7 +18,13 @@ public class ChannelPrefChangeServlet extends HttpServlet {
 		String pushPrefFront = request.getParameter("pushRequest");
 		String smsPrefFront = request.getParameter("smsRequest");
 		String emailPrefFront = request.getParameter("emailRequest");
+		String allTransactionsCheck = request.getParameter("allTransactionsCheck");
+		String lowerLimitCheck = request.getParameter("lowerLimitCheck");
+		int lowerLimit = Integer.parseInt(request.getParameter("lowerLimit"));
+		String transactionAmountCheck = request.getParameter("transactionAmountCheck");
+		int transactionAmountLimit = Integer.parseInt(request.getParameter("transactionAmountLimit"));
 		String emailId = request.getParameter("emailId");
+		
 		
 		
 		HbaseOperations hbaseOps = new HbaseOperations();
@@ -28,6 +34,11 @@ public class ChannelPrefChangeServlet extends HttpServlet {
 		user.setSmsPreference(smsPrefFront);
 		user.setEmailPreference(emailPrefFront);
 		user.setPushPreference(pushPrefFront);
+		user.setAllTransactionsCheck(allTransactionsCheck);
+		user.setLowerLimitCheck(lowerLimitCheck);
+		user.setLowerLimit(lowerLimit);
+		user.setTransactionAmountCheck(transactionAmountCheck);
+		user.setTransactionAmountLimit(transactionAmountLimit);
 		
 		hbaseOps.insertData(user);
 	}

@@ -30,6 +30,11 @@ public class OnLoadServlet extends HttpServlet {
 	    userData.put("pushPreference", user.getPushPreference());
 	    userData.put("smsPreference", user.getSmsPreference());
 	    userData.put("emailPreference", user.getEmailPreference());
+	    userData.put("allTransactionsCheck", user.getAllTransactionsCheck());
+	    userData.put("lowerLimitCheck", user.getLowerLimitCheck());
+	    userData.put("lowerLimit", Integer.toString(user.getLowerLimit()));
+	    userData.put("transactionAmountCheck", user.getTransactionAmountCheck());
+	    userData.put("transactionAmountLimit", Integer.toString(user.getTransactionAmountLimit()));
 	    
 	    String json = new Gson().toJson(userData);
 		

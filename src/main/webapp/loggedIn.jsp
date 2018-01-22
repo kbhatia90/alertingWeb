@@ -24,6 +24,15 @@ $(document).ready(function(){
     				$("#emailPrefId").prop('checked',true);
     			if (responseJson.smsPreference == "true")
     				$("#smsPrefId").prop('checked',true);
+    			if (responseJson.allTransactionsCheck == "true")
+    				$("#allTransactionsId").prop('checked',true);
+    			if (responseJson.lowerLimitCheck == "true")
+    				$("#balanceCheckId").prop('checked',true);
+    			if (responseJson.transactionAmountCheck == "true")
+    				$("#transactionCheckId").prop('checked',true);
+    			$("#lowerLimitId").val(responseJson.lowerLimit);
+    			$("#transactionLimitId").val(responseJson.transactionAmountLimit);
+    			
     			
     		});
     		
@@ -32,6 +41,11 @@ $(document).ready(function(){
     					pushRequest: $("#pushPrefId").is(":checked"),
     					smsRequest: $("#smsPrefId").is(":checked"),
     					emailRequest: $("#emailPrefId").is(":checked"),
+    					allTransactionsCheck: $("#allTransactionsId").is(":checked"),
+    					lowerLimitCheck: $("#balanceCheckId").is(":checked"),
+    					lowerLimit: $("#lowerLimitId").val(),
+    					transactionAmountCheck: $("#transactionCheckId").is(":checked"),
+    					transactionAmountLimit: $("#transactionLimitId").val(),
     					emailId: $("#emailIDCaptured").text()
     			}
     			$.post("ChannelPrefChangeServlet", $.param(preferences), function(response){
@@ -155,10 +169,10 @@ input:checked+.slider:before {
 			</div>
 			
 			<div>
-			<div class="w3-left w3-half" style="padding-left:150px; padding-top:75px">
+			<div class="w3-left w3-half" style="padding-left:150px; padding-top:120px">
 			<h4 class="w3-left">Push Notifications</h4>
 			</div>
-			<div class="w3-right w3-half" style="padding-right:150px; padding-top:80px">
+			<div class="w3-right w3-half" style="padding-right:150px; padding-top:130px">
 			<label class="switch w3-padding-16"> 
 				<input type="checkbox" name="pushPreference" id="pushPrefId">
 				<span class="slider round"></span>
@@ -166,6 +180,10 @@ input:checked+.slider:before {
 			</div>
 			</div>
 			
+			<hr>
+			
+			<div class="w3-row w3-padding-8"></div>
+			<div class="w3-row w3-padding-32"></div>
 			<div class="w3-row">
 			<div class="w3-left w3-half" style="padding-left:150px; padding-top:25px">
 			<h4 class="w3-left">E-mail</h4>
@@ -177,6 +195,8 @@ input:checked+.slider:before {
 			</label>
 			</div>
 			</div>
+			
+			<div class="w3-row w3-padding-32"></div>
 			
 			<div class="w3-row">
 			<div class="w3-left w3-half" style="padding-left:150px; padding-top:25px">
@@ -191,14 +211,55 @@ input:checked+.slider:before {
 			</div>
 			
 		</div>
-		<div class="w3-half w3-indigo w3-container" style="min-height: 800px">
-			<div class="w3-padding-32 w3-center">
+		<div class="w3-half w3-indigo w3-center" style="min-height: 800px">
+			<div class="w3-padding-32">
 				<h2>Communication Preferences</h2>
 				<p>When do you want us to contact you?</p>
-				<div class="w3-container w3-responsive">
-					
-				</div>
 			</div>
+			
+			<div>
+			<div class="w3-left w3-half" style="padding-left:60px; padding-top:120px">
+			<h4 class="w3-left">On All Transactions</h4>
+			</div>
+			<div class="w3-right w3-half" style="padding-top:130px">
+			<label class="switch w3-padding-16"> 
+				<input type="checkbox" name="allTransactions" id="allTransactionsId">
+				<span class="slider round"></span>
+			</label>
+			</div>
+			</div>
+			<hr>
+			<div class="w3-row w3-padding-32"></div>
+			
+			<div class="w3-row">
+			<div class="w3-left w3-half" style="padding-left:60px; padding-top:25px">
+			<h4 class="w3-left">When Balance drops below €</h4>
+			<input id="lowerLimitId" class="w3-input w3-border" type="text" style="width:30%">
+			</div>
+			<div class="w3-right w3-half" style="padding-top:30px">
+			<label class="switch w3-padding-16"> 
+				<input type="checkbox" name="balanceCheck" id="balanceCheckId">
+				<span class="slider round"></span>
+			</label>
+			</div>
+			</div>
+			
+			<div class="w3-row w3-padding-16"></div>
+			
+			<div class="w3-row">
+			<div class="w3-left w3-half" style="padding-left:60px; padding-top:25px">
+			<h4 class="w3-left">Transaction amount &gt; €</h4>
+			<input id="transactionLimitId" class="w3-input w3-border" type="text" style="width:30%">
+			</div>
+			<div class="w3-right w3-half" style="padding-top:30px">
+			<label class="switch w3-padding-16"> 
+				<input type="checkbox" name="transactionCheck" id="transactionCheckId">
+				<span class="slider round"></span>
+			</label>
+			</div>
+			</div>
+			
+			
 		</div>
 	</div>
 

@@ -9,6 +9,11 @@ public class User {
 	private String emailPreference;
 	private String smsPreference;
 	private String password;
+	private String allTransactionsCheck;
+	private String lowerLimitCheck;
+	private int lowerLimit;
+	private String transactionAmountCheck;
+	private int transactionAmountLimit;
 	
 	public String getEmailId() {
 		return emailId;
@@ -51,5 +56,35 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getAllTransactionsCheck() {
+		return allTransactionsCheck;
+	}
+	public void setAllTransactionsCheck(String allTransactionsCheck) {
+		this.allTransactionsCheck = allTransactionsCheck;
+	}
+	public String getLowerLimitCheck() {
+		return lowerLimitCheck;
+	}
+	public void setLowerLimitCheck(String lowerLimitCheck) {
+		this.lowerLimitCheck = lowerLimitCheck;
+	}
+	public int getLowerLimit() {
+		return lowerLimit;
+	}
+	public void setLowerLimit(int lowerLimit) {
+		this.lowerLimit = lowerLimit;
+	}
+	public String getTransactionAmountCheck() {
+		return transactionAmountCheck;
+	}
+	public void setTransactionAmountCheck(String transactionAmountCheck) {
+		this.transactionAmountCheck = transactionAmountCheck;
+	}
+	public int getTransactionAmountLimit() {
+		return transactionAmountLimit;
+	}
+	public void setTransactionAmountLimit(int transactionAmountLimit) {
+		this.transactionAmountLimit = transactionAmountLimit;
 	}
 }
