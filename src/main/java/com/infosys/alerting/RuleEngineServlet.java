@@ -42,23 +42,19 @@ public class RuleEngineServlet extends HttpServlet{
 				if(user.getPushPreference().equalsIgnoreCase("true") 
 						|| user.getSmsPreference().equalsIgnoreCase("true") 
 						|| user.getEmailPreference().equalsIgnoreCase("true")) {
-					
-					System.out.println("1");
+			
 
 					if(user.getAllTransactionsCheck().equalsIgnoreCase("true")) {
-						System.out.println("2");
 						response.setContentType("text/plain");
 						response.setCharacterEncoding("UTF-8");
 						response.getWriter().write("notifyDebitAmount");
 					}
 					else if(user.getLowerLimitCheck().equalsIgnoreCase("true") && user.getBalance()<=user.getLowerLimit()) {
-						System.out.println("3");
 						response.setContentType("text/plain");
 						response.setCharacterEncoding("UTF-8");
 						response.getWriter().write("notifyLowerLimit");
 					}
 					else if(user.getTransactionAmountCheck().equalsIgnoreCase("true") && debitAmount>=user.getTransactionAmountLimit()) {
-						System.out.println("4");
 						response.setContentType("text/plain");
 						response.setCharacterEncoding("UTF-8");
 						response.getWriter().write("notifyBigAmount");

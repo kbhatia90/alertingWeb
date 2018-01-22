@@ -37,6 +37,14 @@ $(document).ready(function(){
     		});
     		
     		$(":checkbox").change(function(){
+    			if($("#balanceCheckId").is(":checked") == true)
+    				$('#lowerLimitId').prop('readonly', true);
+    			else
+    				$('#lowerLimitId').prop('readonly', false);
+    			if($("#transactionCheckId").is(":checked") == true)
+    				$('#transactionLimitId').prop('readonly', true);
+    			else
+    				$('#transactionLimitId').prop('readonly', false);
     			var preferences = {
     					pushRequest: $("#pushPrefId").is(":checked"),
     					smsRequest: $("#smsPrefId").is(":checked"),
@@ -172,7 +180,7 @@ input:checked+.slider:before {
 	<div id="emailIDCaptured" class="w3-hide"><%String _emailId = request.getParameter("emailId");out.print(_emailId);%></div>
 	
 	<div class="w3-row">
-		<div class="w3-light-grey w3-card w3-center" style="height: 700px">
+		<div class="w3-white w3-card w3-center" style="height: 700px">
 		<a href="index.jsp" class="w3-button w3-right w3-padding-8" id="logoutId">Logout</a>
 			<div class="w3-padding-32">
 				<h1 class="w3-teal w3-card">DX Bank</h1>
@@ -185,11 +193,11 @@ input:checked+.slider:before {
 				alt="DX-Bank" style="width: 10%">
 			<div class="w3-padding-32">
 				<a href="#work"
-					class="w3-button w3-light-grey w3-block w3-hover-indigo w3-padding-16">Communication
+					class="w3-button w3-white w3-block w3-hover-indigo w3-padding-16">Communication
 					Catalog</a> <a href="#work"
-					class="w3-button w3-light-grey w3-block w3-hover-dark-grey w3-padding-16">Communication
+					class="w3-button w3-white w3-block w3-hover-dark-grey w3-padding-16">Communication
 					Preferences</a> <a href="#contact"
-					class="w3-button w3-light-grey w3-block w3-hover-brown w3-padding-16">Shop
+					class="w3-button w3-white w3-block w3-hover-brown w3-padding-16">Shop
 					Now!</a>
 			</div>
 		</div>
