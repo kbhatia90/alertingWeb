@@ -35,6 +35,7 @@ public class OnLoadServlet extends HttpServlet {
 	    userData.put("lowerLimit", Integer.toString(user.getLowerLimit()));
 	    userData.put("transactionAmountCheck", user.getTransactionAmountCheck());
 	    userData.put("transactionAmountLimit", Integer.toString(user.getTransactionAmountLimit()));
+	    userData.put("token", user.getUserDeviceToken());
 	    
 	    String json = new Gson().toJson(userData);
 		

@@ -14,6 +14,7 @@ public class User {
 	private int lowerLimit;
 	private String transactionAmountCheck;
 	private int transactionAmountLimit;
+	private String userDeviceToken;
 	
 	public String getEmailId() {
 		return emailId;
@@ -86,5 +87,11 @@ public class User {
 	}
 	public void setTransactionAmountLimit(int transactionAmountLimit) {
 		this.transactionAmountLimit = transactionAmountLimit;
+	}
+	public String getUserDeviceToken() {
+		return userDeviceToken;
+	}
+	public void setUserDeviceToken(String userDeviceTocken) {
+		this.userDeviceToken = userDeviceTocken;
 	}
 }

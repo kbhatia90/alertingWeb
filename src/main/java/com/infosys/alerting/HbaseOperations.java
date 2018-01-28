@@ -58,6 +58,7 @@ public class HbaseOperations {
 		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("lowerLimit"), Bytes.toBytes(user.getLowerLimit()));
 		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountCheck"), Bytes.toBytes(user.getTransactionAmountCheck()));
 		put.addColumn(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountLimit"), Bytes.toBytes(user.getTransactionAmountLimit()));
+		put.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("userDeviceToken"), Bytes.toBytes(user.getUserDeviceToken()));
 		table.put(put);
 		
 		table.close();
@@ -83,6 +84,7 @@ public class HbaseOperations {
 		byte [] lowerLimitBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("lowerLimit"));
 		byte [] transactionAmountCheckBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountCheck"));
 		byte [] transactionAmountLimitBytes = result.getValue(Bytes.toBytes("account"), Bytes.toBytes("transactionAmountLimit"));
+		byte [] userDeviceTokenBytes = result.getValue(Bytes.toBytes("personal"), Bytes.toBytes("userDeviceToken"));
 		
 		String name = Bytes.toString(nameBytes);
 		int balance = Bytes.toInt(balanceBytes);
@@ -95,6 +97,7 @@ public class HbaseOperations {
 		int lowerLimit = Bytes.toInt(lowerLimitBytes);
 		String transactionAmountCheck = Bytes.toString(transactionAmountCheckBytes);
 		int transactionAmountLimit = Bytes.toInt(transactionAmountLimitBytes);
+		String userDeviceToken = Bytes.toString(userDeviceTokenBytes);
 		
 		
 		User user = new User();
@@ -110,6 +113,7 @@ public class HbaseOperations {
 		user.setLowerLimit(lowerLimit);
 		user.setTransactionAmountCheck(transactionAmountCheck);
 		user.setTransactionAmountLimit(transactionAmountLimit);
+		user.setUserDeviceToken(userDeviceToken);
 		
 		table.close();
 		closeConnection();

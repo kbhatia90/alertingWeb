@@ -15,6 +15,7 @@ $(document).ready(function(){
 		var emailIdFromIndex = {
 				emailId: $("#emailIDCaptured").text()
 		}
+		var token;
     		$.post("OnLoadServlet",$.param(emailIdFromIndex),function(responseJson){
     			$("#nameId").text("Welcom "+responseJson.name+"!");
     			$("#balanceId").text("Your account balance is: €"+responseJson.balance);
@@ -32,19 +33,19 @@ $(document).ready(function(){
     				$("#transactionCheckId").prop('checked',true);
     			$("#lowerLimitId").val(responseJson.lowerLimit);
     			$("#transactionLimitId").val(responseJson.transactionAmountLimit);
-    			
+    			token = responseJson.token;
     			
     		});
     		
     		$(":checkbox").change(function(){
     			if($("#balanceCheckId").is(":checked") == true)
-    				$('#lowerLimitId').prop('readonly', true);
+    				$('#lowerLimitId').attr('readonly', true);
     			else
-    				$('#lowerLimitId').prop('readonly', false);
+    				$('#lowerLimitId').attr('readonly', false);
     			if($("#transactionCheckId").is(":checked") == true)
-    				$('#transactionLimitId').prop('readonly', true);
+    				$('#transactionLimitId').attr('readonly', true);
     			else
-    				$('#transactionLimitId').prop('readonly', false);
+    				$('#transactionLimitId').attr('readonly', false);
     			var preferences = {
     					pushRequest: $("#pushPrefId").is(":checked"),
     					smsRequest: $("#smsPrefId").is(":checked"),
@@ -72,9 +73,14 @@ $(document).ready(function(){
     					type: "debit"
     			}
 			$.post("RuleEngineServlet", $.param(details), function(response){
-				
         			if(response == "notifyDebitAmount"){
-        				alert("Your account is debited with €100");
+        				var debitDetails = {
+        						"token":token,
+        						"amount":"100"
+            			}
+        				$.post("https://us-central1-alerting-9ec02.cloudfunctions.net/eventTrigger",$.param(debitDetails), function(){
+        						location.reload();
+        				});
         			}
         			else if(response == "notifyLowerLimit"){
         				alert("Your account balance is less than "+ $("#lowerLimitId").val());
@@ -85,7 +91,6 @@ $(document).ready(function(){
         			else if(response == "insufficient"){
         				alert("insufficient funds");
         			}
-        			location.reload();
         		});
     			
     		});

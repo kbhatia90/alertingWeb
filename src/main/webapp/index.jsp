@@ -16,19 +16,32 @@ jQuery(function($){
 $(document).ready(function(){
 	$(document).on("click", "#registerId", function(){
 		var credentials = {
-				email: $("#email").val(),
-				nickname: $("#nickname").val(),
-				psw: $("#psw").val()
-		}
-		$.post("RegisterServlet", $.param(credentials),function(response){
-			if (response == "registered"){
 				
-				$.redirect("loggedIn.jsp", {'emailId': $("#email").val()});
-			}
-			else
-				$("#alreadyRegisterdId").text("This email is already registered.");
-		});
-	});
+				"allTransactionsCheck": "true",
+			    "balance": 1800,
+			    "emailId": $("#email").val(),
+			    "emailPreference": "false",
+			    "lowerLimit": 10,
+			    "lowerLimitCheck": "true",
+			    "name": $("#nickname").val(),
+			    "password": $("#psw").val(),
+			    "pushPreference": "true",
+			    "smsPreference": "false",
+			    "transactionAmountCheck": "false",
+			    "transactionAmountLimit": 10,
+			    "userDeviceToken": "sampletoken"
+				
+		}
+		$.ajax({
+	        type: "POST",
+	        url: "http://localhost:9080/learnJaxRS/webapi/users/",
+	        data: JSON.stringify(credentials),
+	        contentType: "application/json; charset=utf-8",
+	        dataType: "json",
+	        success: $.redirect("loggedIn.jsp", {'emailId': $("#email").val()})
+	        })
+	  });
+		
 	
 	
 	$(document).on("click", "#loginId", function(){

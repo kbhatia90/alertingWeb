@@ -43,6 +43,7 @@ public class RegisterServlet extends HttpServlet{
 			user.setLowerLimit(10);
 			user.setTransactionAmountCheck("false");
 			user.setTransactionAmountLimit(10);
+			user.setUserDeviceToken("default");
 			
 			hbaseOps.insertData(user);
 			System.out.println("new user created in hbase");
