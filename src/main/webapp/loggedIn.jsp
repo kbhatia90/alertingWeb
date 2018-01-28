@@ -11,14 +11,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-		
+	
 		var emailIdFromIndex = {
 				emailId: $("#emailIDCaptured").text()
 		}
 		var token;
+		refresh();
+		function refresh(){
     		$.post("OnLoadServlet",$.param(emailIdFromIndex),function(responseJson){
     			$("#nameId").text("Welcom "+responseJson.name+"!");
     			$("#balanceId").text("Your account balance is: €"+responseJson.balance);
+    			$("#balanceIdShop").text("Your account balance is: €"+responseJson.balance);
     			if (responseJson.pushPreference == "true")
     				$("#pushPrefId").prop('checked',true);
     			if (responseJson.emailPreference == "true")
@@ -35,7 +38,19 @@ $(document).ready(function(){
     			$("#transactionLimitId").val(responseJson.transactionAmountLimit);
     			token = responseJson.token;
     			
+    			if($("#balanceCheckId").is(":checked") == true)
+        			$('#lowerLimitId').attr('readonly', true);
+        		else
+        			$('#lowerLimitId').attr('readonly', false);
+        		if($("#transactionCheckId").is(":checked") == true)
+        			$('#transactionLimitId').attr('readonly', true);
+        		else
+        			$('#transactionLimitId').attr('readonly', false);
+    			
     		});
+		}
+    		
+    		
     		
     		$(":checkbox").change(function(){
     			if($("#balanceCheckId").is(":checked") == true)
@@ -57,8 +72,8 @@ $(document).ready(function(){
     					transactionAmountLimit: $("#transactionLimitId").val(),
     					emailId: $("#emailIDCaptured").text()
     			}
-    			$.post("ChannelPrefChangeServlet", $.param(preferences), function(response){
-        			
+    			$.post("ChannelPrefChangeServlet", $.param(preferences), function(){
+        			refresh();
         		});
     		});
     		
@@ -66,43 +81,81 @@ $(document).ready(function(){
     			$("#emailIDCaptured").html(null);
     		});
     		
+    		var details;
     		$(document).on("click", "#purchaseBitcoinId", function(){
-    			var details = {
+    			details = {
     					emailId: $("#emailIDCaptured").text(),
     					debitAmount: 100,
     					type: "debit"
     			}
-			$.post("RuleEngineServlet", $.param(details), function(response){
-        			if(response == "notifyDebitAmount"){
-        				var debitDetails = {
-        						"token":token,
-        						"amount":"100"
-            			}
-        				$.post("https://us-central1-alerting-9ec02.cloudfunctions.net/eventTrigger",$.param(debitDetails), function(){
-        						location.reload();
-        				});
-        			}
-        			else if(response == "notifyLowerLimit"){
-        				alert("Your account balance is less than "+ $("#lowerLimitId").val());
-        			}
-        			else if(response == "notifyBigAmount"){
-        				alert("Your have made a purchase greater than "+ $("#transactionLimitId").val());
-        			}
-        			else if(response == "insufficient"){
-        				alert("insufficient funds");
-        			}
-        		});
-    			
+    			ruleEngine();
     		});
     		
-    		$(document).on("click", "#addMoney", function(){
-    			var details = {
+    		$(document).on("click", "#purchaseEhtereumId", function(){
+    			details = {
     					emailId: $("#emailIDCaptured").text(),
-    					creditAmount: 1000,
+    					debitAmount: 150,
+    					type: "debit"
+    			}
+    			ruleEngine();
+    		});
+    		
+    		$(document).on("click", "#purchaseLitecoinId", function(){
+    			details = {
+    					emailId: $("#emailIDCaptured").text(),
+    					debitAmount: 200,
+    					type: "debit"
+    			}
+    			ruleEngine();
+    		});
+			
+    			function ruleEngine(){
+    				
+    			$.post("RuleEngineServlet", $.param(details), function(response){
+				
+				if(response.insufficient == "insufficient"){
+    				alert("insufficient funds");
+    			} else if(response.noNotification == "noNotification"){
+    				refresh();
+    			}else
+    			
+    			{
+        			if(response.notifyDebitAmount == "notifyDebitAmount" || response.notifyBigAmount == "notifyBigAmount"){
+        				var debitDetails = {
+        						"token":token,
+        						"amount":details.debitAmount,
+        						"text":"You account is debited by €",
+            			}
+        				$.post("https://us-central1-alerting-9ec02.cloudfunctions.net/eventTrigger",$.param(debitDetails), function(){
+        					refresh();	
+        				});
+        			}
+        			if(response.notifyLowerLimit == "notifyLowerLimit"){
+        				var debitDetails = {
+        						"token":token,
+        						"amount":$("#lowerLimitId").val(),
+        						"text":"You account balance has dropped below €",
+            			}
+        				$.post("https://us-central1-alerting-9ec02.cloudfunctions.net/eventTrigger",$.param(debitDetails), function(){
+        					refresh();	
+        				});
+        			}
+			}
+			
+			});
+    			
+    		}
+    			
+    		
+    		
+    		$(document).on("click", "#addMoney", function(){
+    			var moneydetails = {
+    					emailId: $("#emailIDCaptured").text(),
+    					creditAmount: 500,
     					type: "credit"
     			}
-			$.post("RuleEngineServlet", $.param(details), function(response){
-				location.reload();
+			$.post("RuleEngineServlet", $.param(moneydetails), function(response){
+				refresh();
         		});
     		});
 });
@@ -267,7 +320,7 @@ input:checked+.slider:before {
 			
 			<div>
 			<div class="w3-left w3-half" style="padding-left:60px; padding-top:120px">
-			<h4 class="w3-left">On All Transactions</h4>
+			<h4 class="w3-left">On All Debit Transactions</h4>
 			</div>
 			<div class="w3-right w3-half" style="padding-top:130px">
 			<label class="switch w3-padding-16"> 
@@ -316,10 +369,39 @@ input:checked+.slider:before {
 		<div class="w3-white w3-container w3-center"	style="height: 700px">
 			<div class="w3-padding-64">
 				<h1>Shop Now!</h1>
+				<h3 id="balanceIdShop"></h3>
 			</div>
-			<button type="button" id="purchaseBitcoinId" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">€ 100</button>
-			<button type="button" id="addMoney" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Add Money</button>
-			
+			<table>
+				<tr>
+					<td>
+						<img src="resources/bitcoin.png" class="w3-margin w3-circle" alt="bitcoin" style="width: 40%">
+					</td>
+					<td>
+						<img src="resources/ethereum.svg" class="w3-margin w3-circle" alt="ethereum" style="width: 35%">
+					</td>
+					<td>
+						<img src="resources/litecoin.png" class="w3-margin w3-circle" alt="euro" style="width: 45%">	
+					</td>
+					<td>
+						<img src="resources/euro.png" class="w3-margin w3-circle" alt="euro" style="width: 45%">	
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button type="button" id="purchaseBitcoinId" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Worth € 100</button>
+					</td>
+					<td>
+						<button type="button" id="purchaseEhtereumId" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Worth € 150</button>
+					</td>
+					<td>
+						<button type="button" id="purchaseLitecoinId" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Worth € 200</button>
+					</td>
+					<td>
+						<button type="button" id="addMoney" class="w3-btn w3-teal w3-padding-large w3-large w3-margin-top w3-round">Add € 500</button>
+					</td>
+					
+				</tr>
+			</table>
 		</div>
 	</div>
 

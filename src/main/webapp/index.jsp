@@ -32,6 +32,7 @@ $(document).ready(function(){
 			    "userDeviceToken": "sampletoken"
 				
 		}
+		
 		$.ajax({
 	        type: "POST",
 	        url: "http://localhost:9080/learnJaxRS/webapi/users/",
@@ -54,7 +55,7 @@ $(document).ready(function(){
 				$.redirect("loggedIn.jsp", {'emailId': $("#emailLogin").val()});
 			}
 			else if(response == "badPassword")
-				$("#wrongPassword").text("Bad Password.");
+				$("#wrongPassword").text("Wrong Email Id or Password");
 			else
 				$("#wrongPassword").text("Email is not registered.");
 		});
