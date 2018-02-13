@@ -12,6 +12,12 @@
 <script>
 $(document).ready(function(){
 	
+	$(document).ajaxStart(function () {
+        $("#loading").show();
+    }).ajaxStop(function () {
+        $("#loading").hide();
+    });
+	
 		var emailIdFromIndex = {
 				emailId: $("#emailIDCaptured").text()
 		}
@@ -141,6 +147,7 @@ $(document).ready(function(){
         				});
         			}
 			}
+				refresh();
 			
 			});
     			
@@ -349,7 +356,7 @@ input:checked+.slider:before {
 			
 			<div class="w3-row">
 			<div class="w3-left w3-half" style="padding-left:60px; padding-top:25px">
-			<h4 class="w3-left">Transaction amount &gt; €</h4>
+			<h4 class="w3-left">Transaction amount ≥ €</h4>
 			<input id="transactionLimitId" class="w3-input w3-border" type="text" style="width:30%">
 			</div>
 			<div class="w3-right w3-half" style="padding-top:30px">
@@ -371,6 +378,7 @@ input:checked+.slider:before {
 				<h1>Shop Now!</h1>
 				<h3 id="balanceIdShop"></h3>
 			</div>
+			
 			<table>
 				<tr>
 					<td>
@@ -402,6 +410,7 @@ input:checked+.slider:before {
 					
 				</tr>
 			</table>
+			<img id="loading" src="resources/loader.gif" class="w3-margin w3-circle" alt="loading" style="width: 3%">
 		</div>
 	</div>
 

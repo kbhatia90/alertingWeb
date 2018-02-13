@@ -15,7 +15,7 @@ jQuery(function($){
 
 $(document).ready(function(){
 	$(document).on("click", "#registerId", function(){
-		var credentials = {
+		/* var credentials = {
 				
 				"allTransactionsCheck": "true",
 			    "balance": 1800,
@@ -40,7 +40,21 @@ $(document).ready(function(){
 	        contentType: "application/json; charset=utf-8",
 	        dataType: "json",
 	        success: $.redirect("loggedIn.jsp", {'emailId': $("#email").val()})
-	        })
+	        }) */
+		var credentials = {
+							email: $("#email").val(),
+								nickname: $("#nickname").val(),
+								psw: $("#psw").val()
+						}
+						$.post("RegisterServlet", $.param(credentials),function(response){
+							if (response == "registered"){
+				 				
+								$.redirect("loggedIn.jsp", {'emailId': $("#email").val()});
+							}
+							else
+								$("#alreadyRegisterdId").text("This email is already registered.");
+						});
+	        
 	  });
 		
 	

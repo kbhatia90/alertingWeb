@@ -25,6 +25,8 @@ public class HbaseOperations {
 	// Get admin for Table Operation
 	public void createAdmin() throws IOException {
 		conf = HBaseConfiguration.create();
+		conf.set("hbase.zookeeper.property.clientPort", "2181");
+	    conf.set("hbase.zookeeper.quorum", "localhost");
 		connection = ConnectionFactory.createConnection(conf);
 		admin = connection.getAdmin();
 	}
